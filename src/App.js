@@ -4,6 +4,7 @@ import './App.css';
 const App = () => {
   const [password, setPassword] = useState('');
   const [isStrong, setIsStrong] = useState(false);
+  const minLength = 6;
   const requirements = {
     'At least one lowercase letter is required': /[a-z]/,
     'At least one uppercase letter is required': /[A-Z]/,
@@ -19,7 +20,7 @@ const App = () => {
     const pswd = event.target.value
     setPassword(pswd);
 
-    if (pswd.length > 5) {
+    if (pswd.length > minLength - 1) {
       const checks = Object.values(requirements).map((requirement) => meetsRequirement(pswd, requirement))
       setIsStrong(checks.every(check => check))
     } else {
@@ -32,15 +33,20 @@ const App = () => {
     for (const [message, requirement] of Object.entries(requirements)) {
       if (!meetsRequirement(password, requirement)) missing.push(message)
     }
-    if (password.length < 6) missing.push('Password must be at least 6 characters long')
+    if (password.length < minLength) missing.push('Password must be at least 6 characters long')
     return missing
   }
 
   return (
-    <div className="App">
-      <input type="password" value={password} onChange={handleChange} />
-      <p>Your password is {isStrong ? 'strong' : 'weak'}!</p>
-      <ul>
+    <div>
+      <input
+        id="password"
+        type="password"
+        value={password}
+        onChange={handleChange}
+      />
+      <p id="message">Your password is {isStrong ? 'strong' : 'weak'}!</p>
+      <ul id="requirements">
         {missingStrengths().map((missingStrength) => {
           return <li key={missingStrength}>{missingStrength}</li>
         })}
