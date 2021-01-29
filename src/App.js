@@ -33,7 +33,7 @@ const App = () => {
     for (const [message, requirement] of Object.entries(requirements)) {
       if (!meetsRequirement(password, requirement)) missing.push(message)
     }
-    if (password.length < minLength) missing.push('Password must be at least 6 characters long')
+    if (password.length < minLength) missing.push(`Password must be at least ${minLength} characters long`)
     return missing
   }
 
