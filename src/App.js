@@ -20,9 +20,8 @@ const App = () => {
     setPassword(pswd);
 
     if (pswd.length > 5) {
-      Object.values(requirements).forEach((requirement) => {
-        meetsRequirement(pswd, requirement) ? setIsStrong(true) : setIsStrong(false)
-      })
+      const checks = Object.values(requirements).map((requirement) => meetsRequirement(pswd, requirement))
+      setIsStrong(checks.every(check => check))
     } else {
       setIsStrong(false)
     }
